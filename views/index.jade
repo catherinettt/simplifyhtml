@@ -1,0 +1,26 @@
+div#wrap
+	div#header
+		h1#title #{title}
+		script(type='text/javascript')
+		
+			function urlcheck(){
+				var x=document.forms["urlform"]["url"].value;
+				var request = false;
+				if (x==null || x=="")
+					{
+					alert("Please enter an URL");
+					return false;
+					}
+				}
+		if(typeof errormsg != 'undefined')
+			p #{errormsg}
+		#urlform			
+			form(name='urlform', action='/simplify', method='post', onsubmit="return urlcheck()")
+				input(type='text', id='url', size='60', name='url', placeholder='url')
+				input(type="submit", id='submit', value="Render", data-transition='fade')		
+	
+	hr
+	
+	#article
+		if(typeof article != 'undefined')
+			#{article}		
