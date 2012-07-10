@@ -1,6 +1,6 @@
 body {
    background: #fff;
-   font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+   font-family: 'Droid Sans', Arial, Helvetica, sans-serif;
    margin: 0;
    padding: 0;
 }
@@ -46,7 +46,7 @@ article {
 
 div#render {
    background: #ffffb;
-   font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+   font-family: 'Droid Sans', Arial, Helvetica, sans-serif;
    border: 1px solid #eee;
    padding: 2em 3em 4em;
    font-size: 14px;
@@ -61,7 +61,7 @@ img{
 }
 
 h2{
-	font-weight: 800;
+	font-weight: 700;
 	color: #000;
 	margin-top: 30px;
 	margin-bottom: 30px;

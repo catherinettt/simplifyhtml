@@ -12,6 +12,9 @@ div#wrap
 					return false;
 					}
 				}
+				
+				
+			
 		if(typeof errormsg != 'undefined')
 			p #{errormsg}
 		#urlform			
@@ -21,6 +24,15 @@ div#wrap
 	
 	hr
 	
-	#article
+	div#render
 		if(typeof article != 'undefined')
-			#{article}		
+		
+	
+			#article
+				h2 #{articletitle}
+				#articlebody
+					#{articlebody}
+		
+				
+
+	
