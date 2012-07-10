@@ -2,7 +2,7 @@ var http = require('http');
 var request = require('request');
 var jQuery = require('jquery');
 var fs = require('fs');
-
+var jsdom = require('jsdom')
 
 
 var titletext = "HTML Simplifier for SFU ENGAGE"
@@ -10,51 +10,51 @@ exports.index = function(req, res){
 	res.render('index', { title: titletext});
 };
 
+
+function articolize(document) {
+	
+	return document.querySelectorAll("article p").map(function(node) {
+		return "<p>"+node.textContent+"</p>";
+	}).join("");
+}
+
 exports.simplify = function(req, res){
 	console.log(req.body.url)
 	
+	if (!req.body.url) {
+		res.render("index", {  title: titletext, errormsg : "please enter an URL" })
+		return;
+	}
+	
 	request(req.body.url, function (error, response, body) {
 		  
-	  if (error){
-		  console.log(error);
-		  res.render('index', { title: titletext, errormsg : error });
-		  
-	  }
-	  else if (response.statusCode == 200) {
-		  console.log(body);
-	   //creates the parsed jQuery Object article.
-	 /*
-  fs.writeFile("/tmp/test", body, function(err) {
-    if(err) {
-        console.log(err);
-    } else {
-        console.log("The file was saved!");
-    }
-}); 
-*/
-	    var article=jQuery.mbArticolize.articolize({
-	    	text : body,
-	    	abstractLength : 350, 
-	    	removeImagesFromHtml : false, 
-	    	simplified : jQuery("#check").attr('checked')});
-	    	console.log((article.candidate).html());
-	    	
-	    fs.writeFile("/tmp/test", ((article.candidate).html()), function(err) {
-		    if(err) {
-		        console.log(err);
-		    } else {
-		        console.log("The file was saved!");
-		    }
-		}); 
-		    res.render('index', { 	title: titletext, 
-		    						article : article, 
-		    						articletitle : article.title, 
-		    						articlebody : (article.candidate).html()
-		    						});
-
-	  }
-	});	
-	//res.render('index', { title: 'HTML Simplified' });
+		if (error){
+			console.log(error);
+			res.render('index', { title: titletext, errormsg : error });  
+		}
+		else if (response.statusCode == 200) {
+		
+			jsdom.env({
+				html: body,
+				done: function(errors, window) {
+					console.log(errors)
+					console.log(window.document.documentElement.innerHTML)
+				
+					res.render('index', { 
+						title: titletext, 
+						article : "derp", 
+						articletitle : "derp", 
+						articlebody : articolize(window.document)
+					})
+				},
+				features: {
+					QuerySelector: true
+				}
+			});
+		
+			
+		}
+	});
 };
 
 
