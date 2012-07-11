@@ -11,11 +11,26 @@ exports.index = function(req, res){
 };
 
 
-function articolize(document) {
+function articolize(document, host) {
 	
-	return document.querySelectorAll("article p").map(function(node) {
+	body = ""
+	title = ""
+	
+	images = document.querySelector("article img").map(function(node) {	
+		imagelink =  "<img src="+ "\"http://" + node.getAttribute("src") + "\"" +"/>";
+		
+		console.log(imagelink);
+		
+		return imagelink;
+		
+	}).join("");
+
+	title = document.querySelector("h1").textContent;
+	body =  document.querySelectorAll("article p").map(function(node) {
 		return "<p>"+node.textContent+"</p>";
 	}).join("");
+	
+	return "<h1>"+ title +"</h1>" + "<div id='image'>" + images + "</div>" +   "<div id='body'>" + body + "</div>" 
 }
 
 exports.simplify = function(req, res){
@@ -33,18 +48,17 @@ exports.simplify = function(req, res){
 			res.render('index', { title: titletext, errormsg : error });  
 		}
 		else if (response.statusCode == 200) {
-		
+			host = response.request.host;
+			console.log("HOST: " + host);
 			jsdom.env({
 				html: body,
 				done: function(errors, window) {
-					console.log(errors)
-					console.log(window.document.documentElement.innerHTML)
+					//console.log(errors)
+					//console.log(window.document.documentElement.innerHTML)
 				
 					res.render('index', { 
-						title: titletext, 
-						article : "derp", 
-						articletitle : "derp", 
-						articlebody : articolize(window.document)
+						title: titletext,  
+						article : articolize(window.document, host)
 					})
 				},
 				features: {

@@ -39,12 +39,6 @@ input#submit:hover{
 	color: white;
 }
 article {
-   background: #fff;
-   border: 1px solid #eee;
-   padding: 2em 3em 4em;
-}
-
-div#render {
    background: #ffffb;
    font-family: 'Droid Sans', Arial, Helvetica, sans-serif;
    border: 1px solid #eee;
@@ -54,8 +48,13 @@ div#render {
    line-height: 1.3em;
 }
 
+div#body {
+	clear: both;
+}
+
 img{
-	display: block;
+	display: inline;
+	float: left;
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
