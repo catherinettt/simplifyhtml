@@ -11,13 +11,21 @@ exports.index = function(req, res){
 };
 
 
+function mediaPath(path, host){
+	if (path.charAt(0)== "/"){
+		return "http://" + host + path
+	}
+	else return path
+}
+
 function articolize(document, host) {
 	
 	body = ""
 	title = ""
 	
-	images = document.querySelector("article img").map(function(node) {	
-		imagelink =  "<img src="+ "\"http://" + node.getAttribute("src") + "\"" +"/>";
+	images = document.querySelectorAll("article img").map(function(node) {	
+		
+		imagelink =  "<img src=\"" + mediaPath(node.getAttribute("src"), host) + "\"" +"/>";
 		
 		console.log(imagelink);
 		
